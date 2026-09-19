@@ -39,6 +39,19 @@ if %ERRORLEVEL% EQU 0 (
 )
 
 echo ========================================================
+echo   Checking Visual Proxy (agent-vision)...
+echo ========================================================
+where python >nul 2>nul
+if %ERRORLEVEL% EQU 0 (
+    echo Starting Visual Proxy (agent-vision)...
+    :: Start it silently in the background; if it is already running, it will not duplicate
+    start "" /B python -m agent_vision start
+    timeout /t 3 /nobreak >nul
+) else (
+    echo [WARNING] Python not found in PATH. Visual proxy might not work.
+)
+
+echo ========================================================
 echo   Executing safety backup...
 echo ========================================================
 set BACKUP_DIR=%~dp0Backups\%date:~0,4%%date:~5,2%%date:~8,2%_%time:~0,2%%time:~3,2%
@@ -49,29 +62,22 @@ robocopy "%~dp0" "%BACKUP_DIR%" /E /XO /R:1 /W:1 /NFL /NDL /NJH /NJS /XD "Backup
 if %ERRORLEVEL% LEQ 16 (
     echo Backup completed.
 ) else (
-    echo [WARNING] Backup anomaly occurred (Error Code: %ERRORLEVEL%^), but main process will continue.
+    echo [WARNING] Backup anomaly occurred ^(Error Code: %ERRORLEVEL%^), but main process will continue.
 )
 
 echo ========================================================
 echo   Validating environment...
 echo ========================================================
-:: Add npm global path to PATH (universal for all users)
 set "PATH=%PATH%;%APPDATA%\npm"
-
-:: Check if node is available
 where node >nul 2>nul
 if %ERRORLEVEL% NEQ 0 (
     echo [ERROR] Node.js is not installed or not in PATH.
-    echo Please install Node.js from https://nodejs.org and try again.
     pause
     exit
 )
-
-:: Check if codex is available
 where codex >nul 2>nul
 if %ERRORLEVEL% NEQ 0 (
-    echo [ERROR] Codex CLI is not installed.
-    echo Please run: npm install -g @openai/codex
+    echo [ERROR] Codex CLI is not installed. Run: npm install -g @openai/codex
     pause
     exit
 )
@@ -86,9 +92,7 @@ echo ========================================================
 echo   Starting PaperInsight-Word Agent...
 echo ========================================================
 cd /d "%~dp0"
-
 title PaperInsight-Word Agent
 
-:: Use call to ensure execution
 call codex
 pause
