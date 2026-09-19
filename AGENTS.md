@@ -55,23 +55,26 @@ Goal: Based on the provided papers, supplementary materials, templates, and exis
 # General Content Rules
 1. All verifiable facts, values, thresholds, groupings, and figure numbers MUST have evidence locations.
 2. Distinguish between measured results, author interpretations, external background, and your inferences. "Not reported in original text" and "unverified in current materials" MUST be clearly distinguished. Fabricating method details is PROHIBITED.
-3. Explain the full name of any abbreviation upon first occurrence in each document. Do not fabricate expansions for terms without a universally accepted full name.
-4. Explain models upon first occurrence: composition, mechanism, phenotype, selection rationale, advantages, and limitations.
-5. Explain key technologies: detection targets, mechanisms, readouts, and limitations. Explain quality control: filtered objects, criteria, reported thresholds, purpose, and potential impacts.
-6. Completely introduce ALL introduced subgroups or experimental groups. Create unified dimension comparison tables when necessary.
-7. Use natural, specific Chinese explanations. Do not use "Firstly, Secondly" merely as logical connectors.
-8. Control group names MUST match the paper. "Control" does not automatically equal non-transgenic or wild-type.
-9. Innovations and limitations MUST correspond to specific evidence. Avoid vague evaluations and over-causal inference.
-10. **Local Runtime Environment**: You are running locally on Windows. Python 3.x is installed, with common libraries like python-docx, pypdf, pdfplumber potentially available. Prioritize using these. Installing time-consuming or compilation-heavy third-party packages is PROHIBITED. If a library is missing, use the simplest alternative or ask the user.
-11. Before ANY write operation (overwrite, rename), check if the `Backups` folder exists. If not, create it and copy the original files there first. Always "Backup First, Modify Later."
+3. **Background Citations & Hyperlinks (New Requirement)**: When mentioning important background technologies, core models, algorithms, or previous key breakthroughs (e.g., FUCCI principle, STARmap technology), you MUST clearly cite the reference in the format "(Core Content: First Author et al., Year)" and **include a hyperlink** to the article (e.g., DOI or PubMed link) to strengthen academic traceability.
+4. Explain the full name of any abbreviation upon first occurrence in each document. Do not fabricate expansions for terms without a universally accepted full name.
+5. Explain models upon first occurrence: composition, mechanism, phenotype, selection rationale, advantages, and limitations.
+6. Explain key technologies: detection targets, mechanisms, readouts, and limitations. Explain quality control: filtered objects, criteria, reported thresholds, purpose, and potential impacts.
+7. Completely introduce ALL introduced subgroups or experimental groups. Create unified dimension comparison tables when necessary.
+8. Use natural, specific Chinese explanations. Do not use "Firstly, Secondly" merely as logical connectors.
+9. Control group names MUST match the paper. "Control" does not automatically equal non-transgenic or wild-type.
+10. Innovations and limitations MUST correspond to specific evidence. Avoid vague evaluations and over-causal inference.
+11. **Local Runtime Environment**: You are running locally on Windows. Python 3.x is installed, with common libraries like python-docx, pypdf, pdfplumber potentially available. Prioritize using these. Installing time-consuming or compilation-heavy third-party packages is PROHIBITED. If a library is missing, use the simplest alternative or ask the user.
+12. Before ANY write operation (overwrite, rename), check if the `Backups` folder exists. If not, create it and copy the original files there first. Always "Backup First, Modify Later."
 
 # Image Rules
-1. Create principle diagrams for core technical configurations that explain mechanisms. Substituting them with ordinary flowcharts is PROHIBITED.
-2. Image usage must comply with applicable copyright and safety rules. Claiming "private study" does not automatically constitute permission.
-3. Draw original explanatory diagrams when necessary, and explicitly state they are NOT original experimental data.
-4. Fabricating micrographs, data, error bars, statistical significance, or measurement curves is STRICTLY PROHIBITED.
-5. Figure captions MUST specify the source, image nature, reading method, and interpretation boundaries.
-6. After modifying figures, synchronously check all figure captions, in-text citations, and panel descriptions.
+1. **Background Schematic Diagrams (New Requirement)**: In sections explaining foundational concepts (such as "Research Background" or "Technical Principles"), you MUST generate or draw at least **2 schematic diagrams** to help beginners understand the core mechanisms. Diagrams must be originally drawn or redesigned based on the original paper's figures. Direct screenshots are STRICTLY PROHIBITED.
+2. **Key Data Charts (New Requirement)**: In each paper interpretation, you MUST select at least **2 key data charts** (e.g., experimental workflow, performance comparison, signaling pathway, statistical significance charts) and present them via Markdown tables, textual figure-reading guides, or programmatically redrawn charts to significantly improve readability.
+3. Create principle diagrams for core technical configurations that explain mechanisms. Substituting them with ordinary flowcharts is PROHIBITED.
+4. Image usage must comply with applicable copyright and safety rules. Claiming "private study" does not automatically constitute permission.
+5. Draw original explanatory diagrams when necessary, and explicitly state they are NOT original experimental data.
+6. Fabricating micrographs, data, error bars, statistical significance, or measurement curves is STRICTLY PROHIBITED.
+7. Figure captions MUST specify the source, image nature, reading method, and interpretation boundaries.
+8. After modifying figures, synchronously check all figure captions, in-text citations, and panel descriptions.
 
 # Word Rules
 1. Unify Chinese and English fonts separately; default to SimSun for Chinese, Arial for English and numbers.
