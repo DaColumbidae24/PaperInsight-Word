@@ -1,0 +1,43 @@
+# Personal templates (DO NOT UPLOAD)
+Templates/*
+!Templates/.gitkeep
+!Templates/Research/
+!Templates/Review/
+Templates/Research/*
+!Templates/Research/.gitkeep
+Templates/Review/*
+!Templates/Review/.gitkeep
+
+# Input/Output directories
+Inputs/*
+!Inputs/.gitkeep
+
+Outputs/*
+!Outputs/.gitkeep
+
+Backups/*
+!Backups/.gitkeep
+
+temp/*
+!temp/.gitkeep
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Config files that might contain API keys
+config.toml
+.env
+*.key
+*.pem
+*.p12
+
+# OS generated files
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# IDE settings
+.vscode/
+.idea/
+*.swp
