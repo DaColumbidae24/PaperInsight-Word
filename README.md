@@ -13,36 +13,36 @@ Reading and interpreting scientific literature is time-consuming. Existing AI ch
 **PaperInsight-Word** is a local AI Agent designed to solve this. Powered by OpenAI's Codex CLI and DeepSeek's extremely cost-effective API, this agent runs securely on your local machine. It automatically:
 - Categorizes papers into **Research** or **Review**.
 - Fuses multiple reference templates.
-- Generates beginner-friendly Chinese interpretations.
+- Generates beginner-friendly interpretations in your chosen language.
 - Outputs polished `.docx` files with visual PDF validation.
-- Uses an external visual proxy to "see" images and charts, compensating for DeepSeek's text-only limitation.
+- **Uses an external visual proxy to analyze images and charts**, compensating for DeepSeek's text-only limitation.
 
 ## ✨ Key Features
 - **Auto-Classification**: Automatically identifies whether a paper is a Research or Review article and uses the corresponding template pool.
 - **Multi-Template Fusion**: Aggregates the strengths and structures of all provided templates in the matched category.
 - **Idempotency & Resume**: Checks `Outputs/` to skip already processed papers, saving your API credits and time.
 - **Safety First**: Includes directory restrictions, auto-backups, and an iteration limit to prevent infinite loops.
-- **Low Cost**: Utilizes DeepSeek API (extremely cheap) instead of expensive OpenAI API billing.
+- **Low Cost**: Utilizes DeepSeek API instead of expensive OpenAI API billing.
 - **Clean Output**: Only Word (.docx) files are placed in `Outputs/`; all intermediate PDFs and scripts stay in `temp/`.
-- **Visual Assistance**: Integrates `agent-vision` with a free visual model (Zhipu GLM-4V-Flash) to describe images and charts.
+- **Visual Assistance**: Integrates a local visual proxy (`agent_vision`) with a free visual model (Zhipu GLM-4V-Flash) to describe images and charts.
 
 ## 🏗️ Architecture & How It Works
 1. You place your paper PDFs or images in the `Inputs/` folder.
 2. You prepare your Word templates in `Templates/Research/` and `Templates/Review/`.
-3. The `start_PaperInsight.bat` script launches CC Switch (for local routing), the visual proxy (`agent-vision`), and Codex.
+3. The `start_PaperInsight.bat` script launches CC Switch (for local routing) and Codex.
 4. The Agent reads `AGENTS.md` for strict behavioral rules.
 5. It generates interpretations, validates pagination by converting to PDF, and places the final `.docx` in `Outputs/`.
-6. When the Agent needs to analyze an image, it calls `python -m agent_vision see` to obtain a text description first.
+6. When the Agent needs to analyze an image, it calls `python -m agent_vision see` to obtain a text description first. (You need to ensure the visual proxy is running in the background).
 
 ## 🚀 Quick Start
 
 ### Prerequisites
 - **OS**: Windows 10 / 11
 - **Node.js**: v18 or higher (`npm install -g @openai/codex`)
-- **Python**: 3.x with `python-docx`, `pypdf`, and `pdfplumber` installed
+- **Python**: 3.x with `python-docx`, `pypdf`, and `pdfplumber` installed.
 - **CC Switch**: [Download here](https://ccswitch.io) (for routing Codex requests to DeepSeek)
 - **DeepSeek API Key**: [Get one here](https://platform.deepseek.com)
-- **Visual Proxy (For Image Analysis)**: Since DeepSeek is a text-only model, this project relies on an external visual model to "see" images. You need to install `agent-vision` and configure a free visual API.
+- **Visual Proxy (For Image Analysis)**: Since DeepSeek is a text-only model, this project relies on an external visual model to "see" images. You need to configure a free visual API (Zhipu GLM-4V-Flash).
 
 ### Setup Steps
 1. **Clone the repository**:
@@ -53,26 +53,27 @@ Reading and interpreting scientific literature is time-consuming. Existing AI ch
 2. **Install Python dependencies**:
    ```bash
    pip install python-docx pypdf pdfplumber -i https://pypi.tuna.tsinghua.edu.cn/simple
-   pip install codex-deepseek-vision -i https://pypi.tuna.tsinghua.edu.cn/simple
    ```
+   *(Note: The `agent_vision` module should be located in your project directory or installed via the provided source. No PyPI installation is required for this custom module.)*
 3. **Configure the Visual Model (Free)**:
    - Go to [Zhipu AI Open Platform](https://open.bigmodel.cn/) to register and get a free API Key.
    - Run the setup wizard to configure the visual proxy (note: `15721` is the default CC Switch port; replace it if you have configured a different port):
      ```bash
      python -m agent_vision setup --proxy-upstream "http://127.0.0.1:15721/v1"
      ```
-   - Select `1. Free` (GLM-4V-Flash) and paste your API Key.
-   - Start the visual proxy in the background:
-     ```bash
-     python -m agent_vision autostart --enable
-     ```
-4. **Configure CC Switch**:
+   - Select `1. Free (GLM-4V-Flash)` and paste your API Key.
+4. **Start the Visual Proxy in the background**:
+   ```bash
+   python -m agent_vision autostart --enable
+   ```
+   *(The visual proxy must be running for the agent to analyze images. You can also add this command to the `.bat` script if you want it to start automatically.)*
+5. **Configure CC Switch**:
    - Open CC Switch, add DeepSeek as a provider, and input your API Key.
    - Enable Local Routing and ensure `codex -> DeepSeek` is active.
-5. **Prepare Folders**:
+6. **Prepare Folders**:
    - Create `Templates/Research` and `Templates/Review` folders, then put your reference Word templates inside.
    - Put your paper PDFs or images into the `Inputs/` folder.
-6. **Run the Agent**:
+7. **Run the Agent**:
    - Double-click `start_PaperInsight.bat`.
    - **IMPORTANT**: When Codex prompts `Do you trust the contents of this directory?`, press `1` (Yes, continue).
    - In the Codex window, press `Ctrl+V` and `Enter` to send the predefined instruction.
@@ -81,7 +82,7 @@ Reading and interpreting scientific literature is time-consuming. Existing AI ch
 ```text
 PaperInsight-Word/
 ├── AGENTS.md                 # Core Agent rules and safety guidelines
-├── start_PaperInsight.bat    # One-click Windows launcher (also starts agent-vision)
+├── start_PaperInsight.bat    # One-click Windows launcher
 ├── README.md                 # Project documentation
 ├── LICENSE                   # MIT License
 ├── .gitignore                # Git ignore rules
@@ -105,7 +106,7 @@ PaperInsight-Word/
 ## ⚙️ Configuration & Customization
 - **Behavior Rules**: Modify `AGENTS.md` to adjust content rules, font preferences, and acceptance criteria.
 - **API Routing**: This project relies on CC Switch to route Codex's API calls to DeepSeek. Ensure CC Switch is running in the background.
-- **Visual Proxy**: The visual proxy (`agent-vision`) must be running for the agent to analyze images. The launcher script tries to start it automatically; you can also run `python -m agent_vision start` manually.
+- **Visual Proxy**: The visual proxy (`agent_vision`) must be running for the agent to analyze images. You can also run `python -m agent_vision start` manually.
 - **Templates**: The `.gitignore` file intentionally excludes the `Templates/` folder. You **MUST** provide your own templates for the agent to work correctly.
 
 ## ⚠️ Important Notes & Safety
